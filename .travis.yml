@@ -5,10 +5,20 @@ go:
   - 1.8.x
 go_import_path: github.com/AkihiroSuda/containerd-zfs
 install:
-  - sudo apt-add-repository -y ppa:zfs-native/stable && sudo apt-get update && sudo apt-get -y install ubuntu-zfs && sudo modprobe zfs
+# install ZFS
+  - sudo apt-get update -y && sudo apt-get install -y linux-headers-$(uname -r) uuid-dev tree
+  - cd /tmp
+  - curl -L https://github.com/zfsonlinux/zfs/releases/download/zfs-0.6.4.2/spl-0.6.4.2.tar.gz | tar xz
+  - curl -L https://github.com/zfsonlinux/zfs/releases/download/zfs-0.6.4.2/zfs-0.6.4.2.tar.gz | tar xz
+  - (cd spl-0.6.4.2 && ./configure --prefix=/usr && make && sudo make install)
+  - (cd zfs-0.6.4.2 && ./configure --prefix=/usr && make && sudo make install)
+  - sudo modprobe zfs
+# fetch containerd
   - expected_containerd_commit=$(make echo-expected-containerd-commit)
   - mkdir -p $GOPATH/src/github.com/containerd && cd $GOPATH/src/github.com/containerd && git clone https://github.com/containerd/containerd.git && cd containerd && git checkout ${expected_containerd_commit}
-  - cd $GOPATH/src/github.com/AkihiroSuda/containerd-zfs
+# done
+  - cd $TRAVIS_BUILD_DIR
+
 script:
   - make
   - sudo make test
