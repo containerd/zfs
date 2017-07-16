@@ -24,8 +24,11 @@ Put [`plugin.go`](plugin.go) to `$GOPATH/github.com/containerd/containerd/cmd/co
 
 ## Usage
 
+1. Set up a ZFS filesystem.
 ```console
 $ zfs create -o mountpoint=/var/lib/containerd/io.containerd.snapshotter.v1.zfs your-zpool/containerd
 ```
 
-Then update `/etc/containerd/config.toml` to use `io.containerd.snapshotter.v1.zfs` snapshotter.
+2. Start containerd.
+
+3. e.g. `ctr pull --snapshotter=zfs ...`

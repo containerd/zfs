@@ -1,5 +1,5 @@
-# as of Jun 27, 2016
-EXPECTED_CONTAINERD_COMMIT ?=f3b85a91b09cdd786fc3ad624b98618cd0e3313e
+# as of July 16, 2017
+EXPECTED_CONTAINERD_COMMIT ?=e48ef84b20464732d0c0dd24b53897f3af4e12cb
 CONTAINERD_COMMIT=$(shell test -d ../../../github.com/containerd/containerd && cd ../../../github.com/containerd/containerd && git rev-parse HEAD)
 
 BINARIES=zfs.so zfs.test
@@ -30,7 +30,7 @@ clean:
 install: zfs.so
 	mkdir -p /var/lib/containerd/plugins
 	cp -f $< /var/lib/containerd/plugins/zfs-$(shell go env GOOS)-$(shell go env GOARCH).so
-	@echo "$(Z) Please edit /etc/containerd/config.toml, and set snapshotter to \"io.containerd.snapshotter.v1.zfs\"."
+	@echo "$(Z) The plugin has been installed as \"io.containerd.snapshotter.v1.zfs\"."
 	@echo "$(Z) Note that the daemon needs to be exactly $(CONTAINERD_COMMIT)."
 
 uninstall:
