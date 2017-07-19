@@ -47,7 +47,7 @@ func NewSnapshotter(root string) (snapshot.Snapshotter, error) {
 		return nil, err
 	}
 	if m.FSType != "zfs" {
-		return nil, errors.Errorf("expected zfs, got %s", m.FSType)
+		return nil, errors.Errorf("path %s must be a zfs filesystem to be used with the zfs snapshotter", root)
 	}
 	dataset, err := zfs.GetDataset(m.Source)
 	if err != nil {
