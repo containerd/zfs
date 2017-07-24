@@ -4,6 +4,8 @@
 
 ZFS snapshotter plugin for containerd.
 
+This plugin is tested on Ubuntu, but should be easily portable to Solaris and FreeBSD as well when containerd supports them.
+
 ## Install (as shared library)
 
 The following command installs the plugin as `/var/lib/containerd/plugins/zfs-$GOOS-$GOARCH.so`.
@@ -19,7 +21,7 @@ Please refer to [`Makefile`](./Makefile) for the version known to work with.
 
 ## Install (static link to the daemon)
 
-Put [`plugin.go`](plugin.go) to `$GOPATH/github.com/containerd/containerd/cmd/containerd/builtins_zfs.go`, and build the daemon manually:
+Put [`plugin.go`](plugin.go) to `$GOPATH/src/github.com/containerd/containerd/cmd/containerd/builtins_zfs.go`, and build the daemon manually:
 
 
 ## Usage
