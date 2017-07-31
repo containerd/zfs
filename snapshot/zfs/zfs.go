@@ -125,14 +125,14 @@ func (z *snapshotter) Walk(ctx context.Context, fn func(context.Context, snapsho
 }
 
 func (z *snapshotter) Prepare(ctx context.Context, key, parent string) ([]mount.Mount, error) {
-	return z.makeActive(ctx, key, parent, false)
+	return z.makeSnapshot(ctx, snapshot.KindActive, key, parent)
 }
 
 func (z *snapshotter) View(ctx context.Context, key, parent string) ([]mount.Mount, error) {
-	return z.makeActive(ctx, key, parent, true)
+	return z.makeSnapshot(ctx, snapshot.KindView, key, parent)
 }
 
-func (z *snapshotter) makeActive(ctx context.Context, key, parent string, readonly bool) ([]mount.Mount, error) {
+func (z *snapshotter) makeSnapshot(ctx context.Context, kind snapshot.Kind, key, parent string) ([]mount.Mount, error) {
 	ctx, t, err := z.ms.TransactionContext(ctx, true)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (z *snapshotter) makeActive(ctx context.Context, key, parent string, readon
 		}
 	}()
 
-	a, err := storage.CreateActive(ctx, key, parent, readonly)
+	a, err := storage.CreateSnapshot(ctx, kind, key, parent)
 	if err != nil {
 		return nil, err
 	}
@@ -177,6 +177,7 @@ func (z *snapshotter) makeActive(ctx context.Context, key, parent string, readon
 		}
 		return nil, err
 	}
+	readonly := kind == snapshot.KindView
 	return z.mounts(target, readonly)
 }
 
@@ -242,17 +243,17 @@ func (z *snapshotter) Mounts(ctx context.Context, key string) ([]mount.Mount, er
 	if err != nil {
 		return nil, err
 	}
-	a, err := storage.GetActive(ctx, key)
+	s, err := storage.GetSnapshot(ctx, key)
 	t.Rollback()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get active snapshot")
 	}
-	activeName := filepath.Join(z.dataset.Name, a.ID)
-	active, err := zfs.GetDataset(activeName)
+	sName := filepath.Join(z.dataset.Name, s.ID)
+	sDataset, err := zfs.GetDataset(sName)
 	if err != nil {
 		return nil, err
 	}
-	return z.mounts(active, false)
+	return z.mounts(sDataset, false)
 }
 
 // Remove abandons the transaction identified by key. All resources
@@ -277,14 +278,14 @@ func (z *snapshotter) Remove(ctx context.Context, key string) (err error) {
 	}
 
 	datasetName := filepath.Join(z.dataset.Name, id)
-	if k != snapshot.KindActive {
+	if k == snapshot.KindCommitted {
 		datasetName += "@" + snapshotSuffix
 	}
 	dataset, err := zfs.GetDataset(datasetName)
 	if err != nil {
 		return err
 	}
-	if k != snapshot.KindActive {
+	if k == snapshot.KindCommitted {
 		err = destroySnapshot(dataset)
 	} else {
 		err = destroy(dataset)
