@@ -124,15 +124,15 @@ func (z *snapshotter) Walk(ctx context.Context, fn func(context.Context, snapsho
 	return storage.WalkInfo(ctx, fn)
 }
 
-func (z *snapshotter) Prepare(ctx context.Context, key, parent string) ([]mount.Mount, error) {
-	return z.makeSnapshot(ctx, snapshot.KindActive, key, parent)
+func (z *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...snapshot.Opt) ([]mount.Mount, error) {
+	return z.createSnapshot(ctx, snapshot.KindActive, key, parent, opts...)
 }
 
-func (z *snapshotter) View(ctx context.Context, key, parent string) ([]mount.Mount, error) {
-	return z.makeSnapshot(ctx, snapshot.KindView, key, parent)
+func (z *snapshotter) View(ctx context.Context, key, parent string, opts ...snapshot.Opt) ([]mount.Mount, error) {
+	return z.createSnapshot(ctx, snapshot.KindView, key, parent, opts...)
 }
 
-func (z *snapshotter) makeSnapshot(ctx context.Context, kind snapshot.Kind, key, parent string) ([]mount.Mount, error) {
+func (z *snapshotter) createSnapshot(ctx context.Context, kind snapshot.Kind, key, parent string, opts ...snapshot.Opt) ([]mount.Mount, error) {
 	ctx, t, err := z.ms.TransactionContext(ctx, true)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (z *snapshotter) makeSnapshot(ctx context.Context, kind snapshot.Kind, key,
 		}
 	}()
 
-	a, err := storage.CreateSnapshot(ctx, kind, key, parent)
+	a, err := storage.CreateSnapshot(ctx, kind, key, parent, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -195,7 +195,7 @@ func (z *snapshotter) mounts(dataset *zfs.Dataset, readonly bool) ([]mount.Mount
 	}, nil
 }
 
-func (z *snapshotter) Commit(ctx context.Context, name, key string) (err error) {
+func (z *snapshotter) Commit(ctx context.Context, name, key string, opts ...snapshot.Opt) (err error) {
 	ctx, t, err := z.ms.TransactionContext(ctx, true)
 	if err != nil {
 		return err
@@ -296,4 +296,23 @@ func (z *snapshotter) Remove(ctx context.Context, key string) (err error) {
 	err = t.Commit()
 	t = nil
 	return err
+}
+
+func (o *snapshotter) Update(ctx context.Context, info snapshot.Info, fieldpaths ...string) (snapshot.Info, error) {
+	ctx, t, err := o.ms.TransactionContext(ctx, true)
+	if err != nil {
+		return snapshot.Info{}, err
+	}
+
+	info, err = storage.UpdateInfo(ctx, info, fieldpaths...)
+	if err != nil {
+		t.Rollback()
+		return snapshot.Info{}, err
+	}
+
+	if err := t.Commit(); err != nil {
+		return snapshot.Info{}, err
+	}
+
+	return info, nil
 }
