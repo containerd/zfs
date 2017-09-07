@@ -1,5 +1,5 @@
-# as of Aug 15, 2017
-EXPECTED_CONTAINERD_COMMIT ?=a64399acc24801efa9e29e7f200328f68bb9005f
+# as of September 7, 2017 (v1.0.0-beta.0)
+EXPECTED_CONTAINERD_COMMIT ?=d0457b221369fa22fc2facdf73266b67993b3959
 CONTAINERD_COMMIT=$(shell test -d ../../../github.com/containerd/containerd && cd ../../../github.com/containerd/containerd && git rev-parse HEAD)
 
 BINARIES=zfs.so zfs.test
