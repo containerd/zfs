@@ -5,7 +5,7 @@
 
 ZFS snapshotter plugin for containerd.
 
-This plugin is tested on Ubuntu, but should work on FreeBSD as well when containerd supports them.
+This plugin is tested on Linux with Ubuntu.  It should be compatible with FreeBSD.
 
 
 ## Compile
