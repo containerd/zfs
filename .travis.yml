@@ -6,7 +6,7 @@ go:
 go_import_path: github.com/containerd/zfs
 install:
   - sudo apt-add-repository -y ppa:zfs-native/stable && sudo apt-get update && sudo apt-get -y install linux-headers-$(uname -r) && sudo apt-get -y install ubuntu-zfs && sudo modprobe zfs
-  - mkdir -p $GOPATH/src/github.com/containerd && cd $GOPATH/src/github.com/containerd && git clone https://github.com/containerd/containerd.git && cd containerd && git checkout v1.0.0-beta.0
+  - mkdir -p $GOPATH/src/github.com/containerd && cd $GOPATH/src/github.com/containerd && git clone https://github.com/containerd/containerd.git && cd containerd && git checkout v1.0.0-beta.1
   - mkdir -p $GOPATH/src/github.com/mistifyio && cd $GOPATH/src/github.com/mistifyio && git clone https://github.com/mistifyio/go-zfs.git && cd go-zfs && git checkout 386bffe89f421c8509066037225e1c0fda6b4933
   - cd $GOPATH/src/github.com/containerd/zfs
   - go get -t ./...
