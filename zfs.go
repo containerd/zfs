@@ -26,7 +26,7 @@ func init() {
 	plugin.Register(&plugin.Registration{
 		Type: plugin.SnapshotPlugin,
 		ID:   "zfs",
-		Init: func(ic *plugin.InitContext) (interface{}, error) {
+		InitFn: func(ic *plugin.InitContext) (interface{}, error) {
 			return NewSnapshotter(ic.Root)
 		},
 	})
