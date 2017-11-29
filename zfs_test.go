@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/containerd/containerd/snapshot"
-	"github.com/containerd/containerd/snapshot/testsuite"
+	"github.com/containerd/containerd/snapshots"
+	"github.com/containerd/containerd/snapshots/testsuite"
 	"github.com/containerd/containerd/testutil"
 	zfs "github.com/mistifyio/go-zfs"
 	"github.com/pkg/errors"
@@ -36,8 +36,8 @@ func newTestZpool() (string, func() error, error) {
 	}, nil
 }
 
-func newSnapshotter() func(context.Context, string) (snapshot.Snapshotter, func() error, error) {
-	return func(ctx context.Context, root string) (snapshot.Snapshotter, func() error, error) {
+func newSnapshotter() func(context.Context, string) (snapshots.Snapshotter, func() error, error) {
+	return func(ctx context.Context, root string) (snapshots.Snapshotter, func() error, error) {
 		testZpool, destroyTestZpool, err := newTestZpool()
 		if err != nil {
 			return nil, nil, err
@@ -59,6 +59,9 @@ func newSnapshotter() func(context.Context, string) (snapshot.Snapshotter, func(
 		}
 
 		return snapshotter, func() error {
+			if err := snapshotter.Close(); err != nil {
+				return err
+			}
 			if err := testZFS.Destroy(zfs.DestroyRecursive | zfs.DestroyRecursiveClones | zfs.DestroyForceUmount); err != nil {
 				return err
 			}
