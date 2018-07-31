@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/containerd/containerd/pkg/testutil"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/testsuite"
-	"github.com/containerd/containerd/testutil"
 	zfs "github.com/mistifyio/go-zfs"
 	"github.com/pkg/errors"
 )
