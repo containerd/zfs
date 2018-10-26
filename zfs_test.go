@@ -14,17 +14,18 @@ import (
 	"github.com/containerd/containerd/pkg/testutil"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/testsuite"
+	"github.com/containerd/continuity/testutil/loopback"
 	zfs "github.com/mistifyio/go-zfs"
 	"github.com/pkg/errors"
 )
 
 func newTestZpool() (string, func() error, error) {
-	lo, destroyLo, err := testutil.NewLoopback(1 << 30) // 1GiB
+	lo, err := loopback.New(1 << 30) // 1GiB
 	if err != nil {
 		return "", nil, err
 	}
 	zpoolName := fmt.Sprintf("testzpool-%d", time.Now().UnixNano())
-	zpool, err := zfs.CreateZpool(zpoolName, nil, lo)
+	zpool, err := zfs.CreateZpool(zpoolName, nil, lo.File)
 	if err != nil {
 		return "", nil, err
 	}
@@ -32,7 +33,7 @@ func newTestZpool() (string, func() error, error) {
 		if err := zpool.Destroy(); err != nil {
 			return err
 		}
-		return destroyLo()
+		return lo.Close()
 	}, nil
 }
 
