@@ -1,17 +1,17 @@
-dist: trusty
+dist: xenial
 sudo: required
 language: go
 go:
-  - 1.10.x
-  - 1.11.x
+  - "1.12.x"
 
 go_import_path: github.com/containerd/zfs
 
 install:
-  - sudo apt-add-repository -y ppa:zfs-native/stable && sudo apt-get update && sudo apt-get -y install linux-headers-$(uname -r) && sudo apt-get -y install ubuntu-zfs && sudo modprobe zfs
-# until containerd v1.0.0 GA, we don't pin containerd version. 
+  - sudo apt-get install -y zfsutils-linux && sudo modprobe zfs
+# currently we don't pin containerd version.
   - mkdir -p $GOPATH/src/github.com/containerd && cd $GOPATH/src/github.com/containerd && git clone https://github.com/containerd/containerd.git
-  - mkdir -p $GOPATH/src/github.com/mistifyio && cd $GOPATH/src/github.com/mistifyio && git clone https://github.com/mistifyio/go-zfs.git && cd go-zfs && git checkout 386bffe89f421c8509066037225e1c0fda6b4933
+# mistifyio/go-zfs (Apr 14, 2019)
+  - mkdir -p $GOPATH/src/github.com/mistifyio && cd $GOPATH/src/github.com/mistifyio && git clone https://github.com/mistifyio/go-zfs.git && cd go-zfs && git checkout f784269be439d704d3dfa1906f45dd848fed2beb
   - cd $GOPATH/src/github.com/containerd/zfs
   - go get -t ./...
   - go get -u github.com/vbatts/git-validation
