@@ -134,13 +134,13 @@ func (z *snapshotter) Usage(ctx context.Context, key string) (snapshots.Usage, e
 }
 
 // Walk the committed snapshots.
-func (z *snapshotter) Walk(ctx context.Context, fn func(context.Context, snapshots.Info) error) error {
+func (z *snapshotter) Walk(ctx context.Context, fn snapshots.WalkFunc, filters ...string) error {
 	ctx, t, err := z.ms.TransactionContext(ctx, false)
 	if err != nil {
 		return err
 	}
 	defer t.Rollback()
-	return storage.WalkInfo(ctx, fn)
+	return storage.WalkInfo(ctx, fn, filters...)
 }
 
 func (z *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...snapshots.Opt) ([]mount.Mount, error) {
