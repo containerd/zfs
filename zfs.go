@@ -227,7 +227,7 @@ func (z *snapshotter) Commit(ctx context.Context, name, key string, opts ...snap
 		}
 	}()
 
-	id, err := storage.CommitActive(ctx, key, name, snapshots.Usage{})
+	id, err := storage.CommitActive(ctx, key, name, snapshots.Usage{}, opts...)
 	if err != nil {
 		return errors.Wrap(err, "failed to commit")
 	}
