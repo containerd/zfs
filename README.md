@@ -1,6 +1,6 @@
 # [containerd](https://github.com/containerd/containerd) ZFS snapshotter plugin
 
-[![Build Status](https://travis-ci.org/containerd/zfs.svg)](https://travis-ci.org/containerd/zfs)
+[![Build Status](https://travis-ci.org/containerd/zfs.svg?branch=master)](https://travis-ci.org/containerd/zfs)
 [![codecov](https://codecov.io/gh/containerd/zfs/branch/master/graph/badge.svg)](https://codecov.io/gh/containerd/zfs)
 
 ZFS snapshotter plugin for containerd.
