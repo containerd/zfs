@@ -20,14 +20,14 @@ package zfs
 
 import (
 	"context"
-	"path/filepath"
-
+	_ "crypto/sha256"
 	"github.com/containerd/containerd/log"
 	"github.com/containerd/containerd/mount"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/storage"
 	zfs "github.com/mistifyio/go-zfs"
 	"github.com/pkg/errors"
+	"path/filepath"
 )
 
 const (
@@ -53,7 +53,7 @@ func NewSnapshotter(root string) (snapshots.Snapshotter, error) {
 		return nil, err
 	}
 	if m.FSType != "zfs" {
-		return nil, errors.Wrapf(err, "path %s must be a zfs filesystem to be used with the zfs snapshotter")
+		return nil, errors.Errorf("path %s must be a zfs filesystem to be used with the zfs snapshotter", root)
 	}
 	dataset, err := zfs.GetDataset(m.Source)
 	if err != nil {
