@@ -20,7 +20,6 @@ package zfs
 
 import (
 	"context"
-	_ "crypto/sha256"
 	"github.com/containerd/containerd/log"
 	"github.com/containerd/containerd/mount"
 	"github.com/containerd/containerd/snapshots"
