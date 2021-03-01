@@ -66,7 +66,6 @@ github.com/containerd/typeurl
 ## explicit
 github.com/docker/go-events
 # github.com/gogo/protobuf v1.3.1
-## explicit
 github.com/gogo/protobuf/gogoproto
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/protoc-gen-gogo/descriptor
