@@ -1,0 +1,177 @@
+# github.com/Microsoft/go-winio v0.4.16-0.20201130162521-d1ffc52c7331
+github.com/Microsoft/go-winio
+github.com/Microsoft/go-winio/pkg/guid
+github.com/Microsoft/go-winio/pkg/security
+github.com/Microsoft/go-winio/vhd
+# github.com/Microsoft/hcsshim v0.8.14
+## explicit
+github.com/Microsoft/hcsshim
+github.com/Microsoft/hcsshim/computestorage
+github.com/Microsoft/hcsshim/internal/cow
+github.com/Microsoft/hcsshim/internal/hcs
+github.com/Microsoft/hcsshim/internal/hcserror
+github.com/Microsoft/hcsshim/internal/hns
+github.com/Microsoft/hcsshim/internal/interop
+github.com/Microsoft/hcsshim/internal/log
+github.com/Microsoft/hcsshim/internal/logfields
+github.com/Microsoft/hcsshim/internal/longpath
+github.com/Microsoft/hcsshim/internal/mergemaps
+github.com/Microsoft/hcsshim/internal/oc
+github.com/Microsoft/hcsshim/internal/safefile
+github.com/Microsoft/hcsshim/internal/schema1
+github.com/Microsoft/hcsshim/internal/schema2
+github.com/Microsoft/hcsshim/internal/timeout
+github.com/Microsoft/hcsshim/internal/vmcompute
+github.com/Microsoft/hcsshim/internal/wclayer
+github.com/Microsoft/hcsshim/internal/winapi
+github.com/Microsoft/hcsshim/osversion
+# github.com/containerd/cgroups v0.0.0-20200531161412-0dbf7f05ba59
+github.com/containerd/cgroups/stats/v1
+# github.com/containerd/containerd v1.4.3
+## explicit
+github.com/containerd/containerd/errdefs
+github.com/containerd/containerd/events
+github.com/containerd/containerd/events/exchange
+github.com/containerd/containerd/filters
+github.com/containerd/containerd/identifiers
+github.com/containerd/containerd/log
+github.com/containerd/containerd/log/logtest
+github.com/containerd/containerd/metadata/boltutil
+github.com/containerd/containerd/mount
+github.com/containerd/containerd/namespaces
+github.com/containerd/containerd/pkg/testutil
+github.com/containerd/containerd/platforms
+github.com/containerd/containerd/plugin
+github.com/containerd/containerd/snapshots
+github.com/containerd/containerd/snapshots/storage
+github.com/containerd/containerd/snapshots/testsuite
+github.com/containerd/containerd/sys
+# github.com/containerd/continuity v0.0.0-20210208174643-50096c924a4e
+## explicit
+github.com/containerd/continuity
+github.com/containerd/continuity/devices
+github.com/containerd/continuity/driver
+github.com/containerd/continuity/fs/fstest
+github.com/containerd/continuity/pathdriver
+github.com/containerd/continuity/proto
+github.com/containerd/continuity/sysx
+github.com/containerd/continuity/testutil/loopback
+# github.com/containerd/ttrpc v1.0.2
+## explicit
+github.com/containerd/ttrpc
+# github.com/containerd/typeurl v1.0.1
+## explicit
+github.com/containerd/typeurl
+# github.com/docker/go-events v0.0.0-20190806004212-e31b211e4f1c
+## explicit
+github.com/docker/go-events
+# github.com/gogo/protobuf v1.3.1
+## explicit
+github.com/gogo/protobuf/gogoproto
+github.com/gogo/protobuf/proto
+github.com/gogo/protobuf/protoc-gen-gogo/descriptor
+github.com/gogo/protobuf/sortkeys
+github.com/gogo/protobuf/types
+# github.com/golang/protobuf v1.3.2
+github.com/golang/protobuf/proto
+github.com/golang/protobuf/ptypes
+github.com/golang/protobuf/ptypes/any
+github.com/golang/protobuf/ptypes/duration
+github.com/golang/protobuf/ptypes/timestamp
+# github.com/google/go-cmp v0.4.0
+github.com/google/go-cmp/cmp
+github.com/google/go-cmp/cmp/internal/diff
+github.com/google/go-cmp/cmp/internal/flags
+github.com/google/go-cmp/cmp/internal/function
+github.com/google/go-cmp/cmp/internal/value
+# github.com/google/uuid v1.1.1
+## explicit
+github.com/google/uuid
+# github.com/hashicorp/golang-lru v0.5.1
+github.com/hashicorp/golang-lru/simplelru
+# github.com/mistifyio/go-zfs v2.1.2-0.20190413222219-f784269be439+incompatible
+## explicit
+github.com/mistifyio/go-zfs
+# github.com/opencontainers/go-digest v1.0.0
+github.com/opencontainers/go-digest
+# github.com/opencontainers/image-spec v1.0.1
+## explicit
+github.com/opencontainers/image-spec/specs-go
+github.com/opencontainers/image-spec/specs-go/v1
+# github.com/pkg/errors v0.9.1
+## explicit
+github.com/pkg/errors
+# github.com/sirupsen/logrus v1.7.0
+github.com/sirupsen/logrus
+# go.etcd.io/bbolt v1.3.5
+## explicit
+go.etcd.io/bbolt
+# go.opencensus.io v0.22.0
+go.opencensus.io
+go.opencensus.io/internal
+go.opencensus.io/trace
+go.opencensus.io/trace/internal
+go.opencensus.io/trace/tracestate
+# golang.org/x/net v0.0.0-20191004110552-13f9640d40b9
+golang.org/x/net/http/httpguts
+golang.org/x/net/http2
+golang.org/x/net/http2/hpack
+golang.org/x/net/idna
+golang.org/x/net/internal/timeseries
+golang.org/x/net/trace
+# golang.org/x/sys v0.0.0-20201201145000-ef89a241ccb3
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# golang.org/x/text v0.3.2
+golang.org/x/text/secure/bidirule
+golang.org/x/text/transform
+golang.org/x/text/unicode/bidi
+golang.org/x/text/unicode/norm
+# google.golang.org/genproto v0.0.0-20200117163144-32f20d992d24
+google.golang.org/genproto/googleapis/rpc/status
+# google.golang.org/grpc v1.26.0
+google.golang.org/grpc
+google.golang.org/grpc/attributes
+google.golang.org/grpc/backoff
+google.golang.org/grpc/balancer
+google.golang.org/grpc/balancer/base
+google.golang.org/grpc/balancer/roundrobin
+google.golang.org/grpc/binarylog/grpc_binarylog_v1
+google.golang.org/grpc/codes
+google.golang.org/grpc/connectivity
+google.golang.org/grpc/credentials
+google.golang.org/grpc/credentials/internal
+google.golang.org/grpc/encoding
+google.golang.org/grpc/encoding/proto
+google.golang.org/grpc/grpclog
+google.golang.org/grpc/internal
+google.golang.org/grpc/internal/backoff
+google.golang.org/grpc/internal/balancerload
+google.golang.org/grpc/internal/binarylog
+google.golang.org/grpc/internal/buffer
+google.golang.org/grpc/internal/channelz
+google.golang.org/grpc/internal/envconfig
+google.golang.org/grpc/internal/grpcrand
+google.golang.org/grpc/internal/grpcsync
+google.golang.org/grpc/internal/resolver/dns
+google.golang.org/grpc/internal/resolver/passthrough
+google.golang.org/grpc/internal/syscall
+google.golang.org/grpc/internal/transport
+google.golang.org/grpc/keepalive
+google.golang.org/grpc/metadata
+google.golang.org/grpc/naming
+google.golang.org/grpc/peer
+google.golang.org/grpc/resolver
+google.golang.org/grpc/serviceconfig
+google.golang.org/grpc/stats
+google.golang.org/grpc/status
+google.golang.org/grpc/tap
+# gotest.tools/v3 v3.0.3
+## explicit
+gotest.tools/v3/assert
+gotest.tools/v3/assert/cmp
+gotest.tools/v3/internal/assert
+gotest.tools/v3/internal/difflib
+gotest.tools/v3/internal/format
+gotest.tools/v3/internal/source
