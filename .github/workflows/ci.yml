@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  checks:
+    name: Project Checks
+    runs-on: ubuntu-18.04
+    timeout-minutes: 5
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: src/github.com/containerd/zfs
+        fetch-depth: 25
+
+    - uses: containerd/project-checks@v1
+      with:
+        working-directory: src/github.com/containerd/zfs
+
+  linters:
+    name: Linters
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        go-version: [1.16]
+        os: [ubuntu-18.04]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/github.com/containerd/zfs
+
+      - name: Set env
+        shell: bash
+        run: |
+          echo "GOPATH=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
+
+      - uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.29
+          working-directory: src/github.com/containerd/zfs
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-18.04
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src/github.com/containerd/zfs
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
+      - run: |
+          sudo apt-get install -y zfsutils-linux && sudo modprobe zfs
+          go test -race -covermode=atomic -c .
+          sudo ./zfs.test -test.root -test.v -test.coverprofile=coverage.txt
+          bash <(curl -s https://codecov.io/bash)
+        working-directory: src/github.com/containerd/zfs
