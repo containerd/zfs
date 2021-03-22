@@ -80,7 +80,7 @@ jobs:
           echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
 
       - run: |
-          sudo apt-get install -y zfsutils-linux && sudo modprobe zfs
+          sudo apt-get update && sudo apt-get install -y zfsutils-linux && sudo modprobe zfs
           go test -race -covermode=atomic -c .
           sudo ./zfs.test -test.root -test.v -test.coverprofile=coverage.txt
           bash <(curl -s https://codecov.io/bash)
