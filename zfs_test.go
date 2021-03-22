@@ -37,7 +37,6 @@ import (
 	"github.com/containerd/continuity/testutil/loopback"
 	zfs "github.com/mistifyio/go-zfs"
 	"github.com/pkg/errors"
-	"gotest.tools/v3/assert"
 )
 
 func newTestZpool() (string, func() error, error) {
@@ -106,74 +105,106 @@ func TestZFSUsage(t *testing.T) {
 
 	// Create temporary directory
 	root, err := ioutil.TempDir("", "TestZFSUsage-")
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 	defer os.RemoveAll(root)
 
 	// Create the snapshotter
 	z, closer, err := newSnapshotter()(ctx, root)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 	defer closer() //nolint:errcheck
 
 	// Prepare empty base layer
 	target := filepath.Join(root, "prepare-1")
 	_, err = z.Prepare(ctx, target, "")
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	emptyLayerUsage, err := z.Usage(ctx, target)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	// Check that the empty layer has non-zero size from metadata
-	assert.Assert(t, emptyLayerUsage.Size > 0)
+	if emptyLayerUsage.Size <= 0 {
+		t.Errorf("expected layer2Usage.Size to be > 0, got: %d", emptyLayerUsage.Size)
+	}
 
 	err = z.Commit(ctx, filepath.Join(root, "layer-1"), target)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
+
+	const (
+		oneMB int64 = 1048576 // 1MB
+		twoMB int64 = 2097152 // 2MB
+	)
 
 	// Create a child layer with a 1MB file
-	var (
-		oneMB       int64 = 1048576 // 1MB
-		baseApplier       = fstest.Apply(fstest.CreateRandomFile("/a", 12345679, oneMB, 0777))
-	)
+	baseApplier := fstest.Apply(fstest.CreateRandomFile("/a", 12345679, oneMB, 0777))
 
 	target = filepath.Join(root, "prepare-2")
 	mounts, err := z.Prepare(ctx, target, filepath.Join(root, "layer-1"))
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	err = mount.WithTempMount(ctx, mounts, baseApplier.Apply)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	// Commit the second layer
 	err = z.Commit(ctx, filepath.Join(root, "layer-2"), target)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	layer2Usage, err := z.Usage(ctx, filepath.Join(root, "layer-2"))
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	// Should be at least 1 MB + fs metadata
-	assert.Check(t, layer2Usage.Size > oneMB,
-		"%d > %d", layer2Usage.Size, oneMB)
+	if layer2Usage.Size <= oneMB {
+		t.Errorf("expected layer2Usage.Size to be > %d, got: %d", oneMB, layer2Usage.Size)
+	}
 
 	// Create another child layer with a 2MB file
-	var twoMB int64 = 2097152 // 2MB
 	baseApplier = fstest.Apply(fstest.CreateRandomFile("/b", 12345679, twoMB, 0777))
 
 	target = filepath.Join(root, "prepare-3")
 	mounts, err = z.Prepare(ctx, target, filepath.Join(root, "layer-2"))
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	err = mount.WithTempMount(ctx, mounts, baseApplier.Apply)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	err = z.Commit(ctx, filepath.Join(root, "layer-3"), target)
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	layer3Usage, err := z.Usage(ctx, filepath.Join(root, "layer-3"))
-	assert.NilError(t, err)
+	if err != nil {
+		t.Error(err)
+	}
 
 	// Should be at least 2 MB + fs metadata
-	assert.Check(t, layer3Usage.Size > twoMB,
-		"%d > %d", layer3Usage.Size, twoMB)
+	if layer3Usage.Size <= twoMB {
+		t.Errorf("expected layer3Usage.Size to be > %d, got: %d", twoMB, layer3Usage.Size)
+	}
 
 	// Should not include the parent snapshot's usage
-	assert.Check(t, layer3Usage.Size < (layer2Usage.Size+twoMB),
-		"%d < %d", layer3Usage.Size, (layer2Usage.Size + twoMB))
+	if layer3Usage.Size >= (layer2Usage.Size + twoMB) {
+		t.Errorf("expected layer3Usage.Size to be < %d, got: %d", layer2Usage.Size+twoMB, layer3Usage.Size)
+	}
 }
