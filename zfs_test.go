@@ -20,6 +20,7 @@ package zfs
 
 import (
 	"context"
+	_ "crypto/sha256"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -27,16 +28,14 @@ import (
 	"testing"
 	"time"
 
-	_ "crypto/sha256"
-
 	"github.com/containerd/containerd/mount"
 	"github.com/containerd/containerd/pkg/testutil"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/testsuite"
 	"github.com/containerd/continuity/fs/fstest"
 	"github.com/containerd/continuity/testutil/loopback"
+
 	zfs "github.com/mistifyio/go-zfs"
-	"github.com/pkg/errors"
 )
 
 func newTestZpool() (string, func() error, error) {
@@ -72,7 +71,7 @@ func newSnapshotter() func(context.Context, string) (snapshots.Snapshotter, func
 			"mountpoint": testZFSMountpoint,
 		})
 		if err != nil {
-			return nil, nil, errors.Wrapf(err, "could not create zfs %q on %q", testZFSName, testZFSMountpoint)
+			return nil, nil, fmt.Errorf("could not create zfs %q on %q", testZFSName, testZFSMountpoint)
 		}
 		snapshotter, err := NewSnapshotter(testZFSMountpoint)
 		if err != nil {

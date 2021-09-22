@@ -20,6 +20,7 @@ package zfs
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"path/filepath"
 
@@ -27,8 +28,8 @@ import (
 	"github.com/containerd/containerd/mount"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/storage"
+
 	zfs "github.com/mistifyio/go-zfs"
-	"github.com/pkg/errors"
 )
 
 const (
@@ -56,7 +57,7 @@ func NewSnapshotter(root string) (snapshots.Snapshotter, error) {
 		return nil, err
 	}
 	if m.FSType != "zfs" {
-		return nil, errors.Errorf("path %s must be a zfs filesystem to be used with the zfs snapshotter", root)
+		return nil, fmt.Errorf("path %s must be a zfs filesystem to be used with the zfs snapshotter", root)
 	}
 	dataset, err := zfs.GetDataset(m.Source)
 	if err != nil {
@@ -144,7 +145,7 @@ func (z *snapshotter) usage(ctx context.Context, key string) (snapshots.Usage, e
 		}
 
 		if int64(sDataset.Used) > maxSnapshotSize {
-			return snapshots.Usage{}, errors.Errorf("Dataset size exceeds maximum snapshot size of %d bytes", maxSnapshotSize)
+			return snapshots.Usage{}, fmt.Errorf("Dataset size exceeds maximum snapshot size of %d bytes", maxSnapshotSize)
 		}
 
 		usage = snapshots.Usage{
@@ -240,7 +241,7 @@ func (z *snapshotter) mounts(dataset *zfs.Dataset, readonly bool) ([]mount.Mount
 func (z *snapshotter) Commit(ctx context.Context, name, key string, opts ...snapshots.Opt) (err error) {
 	usage, err := z.usage(ctx, key)
 	if err != nil {
-		return errors.Wrap(err, "failed to compute usage")
+		return fmt.Errorf("failed to compute usage: %w", err)
 	}
 
 	ctx, t, err := z.ms.TransactionContext(ctx, true)
@@ -257,7 +258,7 @@ func (z *snapshotter) Commit(ctx context.Context, name, key string, opts ...snap
 
 	id, err := storage.CommitActive(ctx, key, name, usage, opts...)
 	if err != nil {
-		return errors.Wrap(err, "failed to commit")
+		return fmt.Errorf("failed to commit: %w", err)
 	}
 
 	activeName := filepath.Join(z.dataset.Name, id)
@@ -293,7 +294,7 @@ func (z *snapshotter) Mounts(ctx context.Context, key string) ([]mount.Mount, er
 	s, err := storage.GetSnapshot(ctx, key)
 	t.Rollback() //nolint:errcheck
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get active snapshot")
+		return nil, fmt.Errorf("failed to get active snapshot: %w", err)
 	}
 	sName := filepath.Join(z.dataset.Name, s.ID)
 	sDataset, err := zfs.GetDataset(sName)
@@ -321,7 +322,7 @@ func (z *snapshotter) Remove(ctx context.Context, key string) (err error) {
 
 	id, k, err := storage.Remove(ctx, key)
 	if err != nil {
-		return errors.Wrap(err, "failed to remove snapshot")
+		return fmt.Errorf("failed to remove snapshot: %w", err)
 	}
 
 	datasetName := filepath.Join(z.dataset.Name, id)
