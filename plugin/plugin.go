@@ -52,7 +52,7 @@ func init() {
 			ic.Meta.Exports["root"] = root
 			snapshotter, err := zfs.NewSnapshotter(root)
 			if err != nil {
-				return nil, fmt.Errorf("%s: %w", plugin.ErrSkipPlugin.Error(), err)
+				return nil, fmt.Errorf("%s: %w", err.Error(), plugin.ErrSkipPlugin)
 			}
 			return snapshotter, nil
 		},
