@@ -1,3 +1,4 @@
+//go:build linux || freebsd
 // +build linux freebsd
 
 /*
@@ -28,8 +29,7 @@ import (
 	"github.com/containerd/containerd/mount"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/storage"
-
-	zfs "github.com/mistifyio/go-zfs"
+	"github.com/mistifyio/go-zfs/v3"
 )
 
 const (

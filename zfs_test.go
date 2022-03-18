@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 /*
@@ -34,8 +35,7 @@ import (
 	"github.com/containerd/containerd/snapshots/testsuite"
 	"github.com/containerd/continuity/fs/fstest"
 	"github.com/containerd/continuity/testutil/loopback"
-
-	zfs "github.com/mistifyio/go-zfs"
+	"github.com/mistifyio/go-zfs/v3"
 )
 
 func newTestZpool() (string, func() error, error) {
