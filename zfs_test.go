@@ -23,7 +23,6 @@ import (
 	"context"
 	_ "crypto/sha256"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -62,7 +61,7 @@ func newSnapshotter() func(context.Context, string) (snapshots.Snapshotter, func
 		if err != nil {
 			return nil, nil, err
 		}
-		testZFSMountpoint, err := ioutil.TempDir("", "containerd-zfs-test")
+		testZFSMountpoint, err := os.MkdirTemp("", "containerd-zfs-test")
 		if err != nil {
 			return nil, nil, err
 		}
@@ -103,7 +102,7 @@ func TestZFSUsage(t *testing.T) {
 	ctx := context.Background()
 
 	// Create temporary directory
-	root, err := ioutil.TempDir("", "TestZFSUsage-")
+	root, err := os.MkdirTemp("", "TestZFSUsage-")
 	if err != nil {
 		t.Error(err)
 	}
