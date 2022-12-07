@@ -3,14 +3,14 @@ module github.com/containerd/zfs
 go 1.19
 
 require (
-	github.com/containerd/containerd v1.6.9
+	github.com/containerd/containerd v1.6.12
 	github.com/containerd/continuity v0.3.0
 	github.com/mistifyio/go-zfs/v3 v3.0.0
 )
 
 require (
-	github.com/Microsoft/go-winio v0.6.0 // indirect
-	github.com/Microsoft/hcsshim v0.9.4 // indirect
+	github.com/Microsoft/go-winio v0.5.2 // indirect
+	github.com/Microsoft/hcsshim v0.9.5 // indirect
 	github.com/containerd/cgroups v1.0.4 // indirect
 	github.com/containerd/ttrpc v1.1.0 // indirect
 	github.com/containerd/typeurl v1.0.2 // indirect
@@ -27,11 +27,8 @@ require (
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	golang.org/x/mod v0.6.0 // indirect
 	golang.org/x/sys v0.1.0 // indirect
-	golang.org/x/text v0.4.0 // indirect
-	golang.org/x/tools v0.2.0 // indirect
-	google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c // indirect
+	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21 // indirect
 	google.golang.org/grpc v1.50.1 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gotest.tools/v3 v3.4.0 // indirect
