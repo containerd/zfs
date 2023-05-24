@@ -21,7 +21,6 @@ jobs:
       - name: Set env
         shell: bash
         run: |
-          echo "GOPATH=${{ github.workspace }}" >> $GITHUB_ENV
           echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
 
       - uses: actions/checkout@v3
@@ -51,13 +50,18 @@ jobs:
       - name: Set env
         shell: bash
         run: |
-          echo "GOPATH=${{ github.workspace }}" >> $GITHUB_ENV
           echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
 
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.os-version }}
+
+      - uses: actions/checkout@v3
       - uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.50.1
-          working-directory: src/github.com/containerd/zfs
+          version: v1.52.2
+          skip-cache: true
+          args: --timeout=8m
 
   tests:
     name: Tests
@@ -76,7 +80,6 @@ jobs:
       - name: Set env
         shell: bash
         run: |
-          echo "GOPATH=${{ github.workspace }}" >> $GITHUB_ENV
           echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
 
       - run: |
