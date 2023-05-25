@@ -75,11 +75,9 @@ func NewSnapshotter(root string) (snapshots.Snapshotter, error) {
 	return b, nil
 }
 
-var (
-	zfsCreateProperties = map[string]string{
-		"mountpoint": "legacy",
-	}
-)
+var zfsCreateProperties = map[string]string{
+	"mountpoint": "legacy",
+}
 
 // createFilesystem creates but not mount.
 func createFilesystem(datasetName string) (*zfs.Dataset, error) {
@@ -138,7 +136,6 @@ func (z *snapshotter) usage(ctx context.Context, key string) (snapshots.Usage, e
 	if info.Kind == snapshots.KindActive {
 		activeName := filepath.Join(z.dataset.Name, id)
 		sDataset, err := zfs.GetDataset(activeName)
-
 		if err != nil {
 			return snapshots.Usage{}, err
 		}
