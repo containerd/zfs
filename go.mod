@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/containerd/containerd v1.6.18
 	github.com/containerd/continuity v0.3.0
-	github.com/mistifyio/go-zfs/v3 v3.0.0
+	github.com/mistifyio/go-zfs/v3 v3.0.1
 )
 
 require (
