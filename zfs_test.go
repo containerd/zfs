@@ -101,11 +101,7 @@ func TestZFSUsage(t *testing.T) {
 	ctx := context.Background()
 
 	// Create temporary directory
-	root, err := os.MkdirTemp("", "TestZFSUsage-")
-	if err != nil {
-		t.Error(err)
-	}
-	defer os.RemoveAll(root)
+	root := t.TempDir()
 
 	// Create the snapshotter
 	z, closer, err := newSnapshotter()(ctx, root)
