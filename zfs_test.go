@@ -101,11 +101,7 @@ func TestZFSUsage(t *testing.T) {
 	ctx := context.Background()
 
 	// Create temporary directory
-	root, err := os.MkdirTemp("", "TestZFSUsage-")
-	if err != nil {
-		t.Error(err)
-	}
-	defer os.RemoveAll(root)
+	root := t.TempDir()
 
 	// Create the snapshotter
 	z, closer, err := newSnapshotter()(ctx, root)
@@ -142,7 +138,7 @@ func TestZFSUsage(t *testing.T) {
 	)
 
 	// Create a child layer with a 1MB file
-	baseApplier := fstest.Apply(fstest.CreateRandomFile("/a", 12345679, oneMB, 0777))
+	baseApplier := fstest.Apply(fstest.CreateRandomFile("/a", 12345679, oneMB, 0o777))
 
 	target = filepath.Join(root, "prepare-2")
 	mounts, err := z.Prepare(ctx, target, filepath.Join(root, "layer-1"))
@@ -172,7 +168,7 @@ func TestZFSUsage(t *testing.T) {
 	}
 
 	// Create another child layer with a 2MB file
-	baseApplier = fstest.Apply(fstest.CreateRandomFile("/b", 12345679, twoMB, 0777))
+	baseApplier = fstest.Apply(fstest.CreateRandomFile("/b", 12345679, twoMB, 0o777))
 
 	target = filepath.Join(root, "prepare-3")
 	mounts, err = z.Prepare(ctx, target, filepath.Join(root, "layer-2"))

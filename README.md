@@ -1,6 +1,8 @@
 # [containerd](https://github.com/containerd/containerd) ZFS snapshotter plugin
 
-[![Build Status](https://github.com/containerd/zfs/workflows/CI/badge.svg)](https://github.com/containerd/zfs/actions?query=workflow%3ACI)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/containerd/zfs)](https://pkg.go.dev/github.com/containerd/zfs)
+[![Build Status](https://github.com/containerd/zfs/actions/workflows/ci.yml/badge.svg)](https://github.com/containerd/zfs/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/containerd/zfs)](https://goreportcard.com/report/github.com/containerd/zfs)
 [![codecov](https://codecov.io/gh/containerd/zfs/branch/main/graph/badge.svg)](https://codecov.io/gh/containerd/zfs)
 
 ZFS snapshotter plugin for containerd.
