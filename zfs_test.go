@@ -28,10 +28,10 @@ import (
 	"time"
 
 	"github.com/containerd/containerd/mount"
-	"github.com/containerd/containerd/pkg/testutil"
 	"github.com/containerd/containerd/snapshots"
 	"github.com/containerd/containerd/snapshots/testsuite"
 	"github.com/containerd/continuity/fs/fstest"
+	"github.com/containerd/continuity/testutil"
 	"github.com/containerd/continuity/testutil/loopback"
 	"github.com/mistifyio/go-zfs/v3"
 )
