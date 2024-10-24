@@ -1,4 +1,4 @@
-module github.com/containerd/zfs
+module github.com/containerd/zfs/v2
 
 go 1.22.0
 

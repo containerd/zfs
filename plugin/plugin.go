@@ -26,7 +26,7 @@ import (
 	"github.com/containerd/platforms"
 	"github.com/containerd/plugin"
 	"github.com/containerd/plugin/registry"
-	"github.com/containerd/zfs"
+	"github.com/containerd/zfs/v2"
 )
 
 // Config represents configuration for the zfs plugin
