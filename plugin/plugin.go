@@ -22,8 +22,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/containerd/containerd/platforms"
-	"github.com/containerd/containerd/plugin"
+	"github.com/containerd/containerd/v2/plugins"
+	"github.com/containerd/platforms"
+	"github.com/containerd/plugin"
+	"github.com/containerd/plugin/registry"
 	"github.com/containerd/zfs"
 )
 
@@ -34,8 +36,8 @@ type Config struct {
 }
 
 func init() {
-	plugin.Register(&plugin.Registration{
-		Type:   plugin.SnapshotPlugin,
+	registry.Register(&plugin.Registration{
+		Type:   plugins.SnapshotPlugin,
 		ID:     "zfs",
 		Config: &Config{},
 		InitFn: func(ic *plugin.InitContext) (interface{}, error) {
@@ -46,8 +48,8 @@ func init() {
 			if !ok {
 				return nil, errors.New("invalid zfs configuration")
 			}
-			// use default ic.Root as root path if config doesn't have a valid root path
-			root := ic.Root
+			// use default root path if config doesn't have a valid root path
+			root := ic.Properties[plugins.PropertyRootDir]
 			if len(config.RootPath) != 0 {
 				root = config.RootPath
 			}
