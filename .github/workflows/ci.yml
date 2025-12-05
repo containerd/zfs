@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: 1.23
 
@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
 
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.os-version }}
 
@@ -73,7 +73,7 @@ jobs:
         with:
           path: src/github.com/containerd/zfs
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: 1.23
 
