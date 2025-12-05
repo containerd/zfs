@@ -141,7 +141,7 @@ func (s *snapshotter) usage(ctx context.Context, key string) (snapshots.Usage, e
 		}
 
 		if int64(sDataset.Used) > maxSnapshotSize {
-			return snapshots.Usage{}, fmt.Errorf("Dataset size exceeds maximum snapshot size of %d bytes", maxSnapshotSize)
+			return snapshots.Usage{}, fmt.Errorf("dataset size exceeds maximum snapshot size of %d bytes", maxSnapshotSize)
 		}
 
 		usage = snapshots.Usage{
