@@ -107,7 +107,7 @@ func (s *snapshotter) Stat(ctx context.Context, key string) (snapshots.Info, err
 	if err != nil {
 		return snapshots.Info{}, err
 	}
-	defer t.Rollback() //nolint:errcheck
+	defer func() { _ = t.Rollback() }()
 	_, info, _, err := storage.GetInfo(ctx, key)
 	if err != nil {
 		return snapshots.Info{}, err
@@ -127,7 +127,7 @@ func (s *snapshotter) usage(ctx context.Context, key string) (snapshots.Usage, e
 		return snapshots.Usage{}, err
 	}
 	id, info, usage, err := storage.GetInfo(ctx, key)
-	t.Rollback() //nolint:errcheck
+	_ = t.Rollback()
 
 	if err != nil {
 		return snapshots.Usage{}, err
@@ -159,7 +159,7 @@ func (s *snapshotter) Walk(ctx context.Context, fn snapshots.WalkFunc, filters .
 	if err != nil {
 		return err
 	}
-	defer t.Rollback() //nolint:errcheck
+	defer func() { _ = t.Rollback() }()
 	return storage.WalkInfo(ctx, fn, filters...)
 }
 
@@ -288,7 +288,7 @@ func (s *snapshotter) Mounts(ctx context.Context, key string) ([]mount.Mount, er
 		return nil, err
 	}
 	snapshot, err := storage.GetSnapshot(ctx, key)
-	t.Rollback() //nolint:errcheck
+	_ = t.Rollback()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get active snapshot: %w", err)
 	}
@@ -352,7 +352,7 @@ func (s *snapshotter) Update(ctx context.Context, info snapshots.Info, fieldpath
 
 	info, err = storage.UpdateInfo(ctx, info, fieldpaths...)
 	if err != nil {
-		t.Rollback() //nolint:errcheck
+		_ = t.Rollback()
 		return snapshots.Info{}, err
 	}
 

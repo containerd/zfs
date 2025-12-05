@@ -108,7 +108,7 @@ func TestZFSUsage(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	defer closer() //nolint:errcheck
+	defer func() { _ = closer() }()
 
 	// Prepare empty base layer
 	target := filepath.Join(root, "prepare-1")
