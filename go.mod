@@ -8,7 +8,7 @@ require (
 	github.com/containerd/log v0.1.0
 	github.com/containerd/platforms v1.0.0-rc.2
 	github.com/containerd/plugin v1.0.0
-	github.com/mistifyio/go-zfs/v3 v3.0.1
+	github.com/mistifyio/go-zfs/v4 v4.0.0
 )
 
 require (

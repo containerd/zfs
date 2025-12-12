@@ -33,7 +33,7 @@ import (
 	"github.com/containerd/containerd/v2/pkg/testutil"
 	"github.com/containerd/continuity/fs/fstest"
 	"github.com/containerd/continuity/testutil/loopback"
-	"github.com/mistifyio/go-zfs/v3"
+	"github.com/mistifyio/go-zfs/v4"
 )
 
 func newTestZpool() (string, func() error, error) {
