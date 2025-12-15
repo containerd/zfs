@@ -28,7 +28,7 @@ import (
 	"github.com/containerd/containerd/v2/core/snapshots"
 	"github.com/containerd/containerd/v2/core/snapshots/storage"
 	"github.com/containerd/log"
-	"github.com/mistifyio/go-zfs/v3"
+	"github.com/mistifyio/go-zfs/v4"
 )
 
 const (
